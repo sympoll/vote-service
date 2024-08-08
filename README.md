@@ -1,4 +1,4 @@
-# voting-service
+# vote-service
 
 **Service port:** 8084
 **Db port:** 5434
