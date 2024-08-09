@@ -1,15 +1,10 @@
 package com.MTAPizza.Sympoll.votingservice;
 
-import com.MTAPizza.Sympoll.votingservice.dto.vote.VoteRequest;
-import com.MTAPizza.Sympoll.votingservice.dto.vote.VoteResponse;
-import com.MTAPizza.Sympoll.votingservice.stub.PollClientStub;
 import com.MTAPizza.Sympoll.votingservice.validator.exception.VoteExceptionHandler;
 import com.google.gson.Gson;
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
@@ -21,10 +16,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
