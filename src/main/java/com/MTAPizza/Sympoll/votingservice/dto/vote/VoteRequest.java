@@ -1,4 +1,6 @@
 package com.MTAPizza.Sympoll.votingservice.dto.vote;
 
-public record VoteRequest() {
+import java.util.UUID;
+
+public record VoteRequest(UUID userId, UUID votingItemId) {
 }
