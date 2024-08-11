@@ -2,14 +2,16 @@
 
 ## Table of Contents
 
-1. [About](#1-about)
-2. [Architecture](#2-architecture)
-  - [2.1 Ports](#21-ports)
-  - [2.2 Database Schema](#22-database-schema)
-  - [2.3 Endpoints](#23-endpoints)
-    - [2.3.1 Vote on Poll](#231-vote-on-poll)
-    - [2.3.2 Remove Vote from Poll](#232-remove-vote-from-poll)
-    - [2.3.3 Get Vote Count](#233-get-vote-count)
+[1. About](#1-about)  
+[2. Architecture](#2-architecture)  
+&emsp; [2.1 Ports](#21-ports)  
+&emsp; [2.2 Database Schema](#22-database-schema)  
+&emsp; [2.3 Endpoints](#23-endpoints)  
+&emsp; &emsp; [2.3.1 Vote on Poll](#231-vote-on-poll)  
+&emsp; &emsp; [2.3.2 Remove Vote from Poll](#232-remove-vote-from-poll)  
+&emsp; &emsp; [2.3.3 Get Vote Count](#233-get-vote-count)
+
+<br />
 
 ## 1) About
 
@@ -21,13 +23,19 @@ The Vote Service is responsible for handling user votes.
 
 - The Vote Service handles that request by interacting with the Poll Service and the database to record and retrieve vote data.
 
-## 2) Architecture
+<br />
 
+
+
+## 2) Architecture
 ### 2.1) Ports
 
 - **Service port:**  8084
 
 - **Database port:**  5434
+
+<br />
+
 
 ### 2.2) Database Schema
 `votes` Table:**
@@ -42,9 +50,14 @@ CREATE TABLE votes
 );
 ```
 
+<br />
+
 ### 2.3) Endpoints
 **BASE URL:**  `/api/vote`
 For each endpoint, use the base URL along with the URL extension if provided.
+
+---
+
 #### 2.3.1) Vote on Poll
 
 - **Method:**  POST
@@ -74,7 +87,9 @@ For each endpoint, use the base URL along with the URL extension if provided.
 ```
 
 ##### Poll Service Interaction
-A call to this endpoint also triggers a **PUT**  request from the Vote Service to the Poll Service.**Request body:**
+A call to this endpoint also triggers a **PUT**  request from the Vote Service to the Poll Service (/api/poll/vote).
+
+**Request body:**
 
 ```json
 {
@@ -88,13 +103,14 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 
 - **Response body:**
 
-
 ```json
 {
     "votingItemDescription": "voting-item-description", // String
     "voteCount": vote-count // int
 }
 ```
+
+---
 
 #### 2.3.2) Remove Vote from Poll
 
@@ -125,7 +141,9 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 ```
 
 ##### Poll Service Interaction
-A call to this endpoint also triggers a **PUT**  request from the Vote Service to the Poll Service.**Request body:**
+A call to this endpoint also triggers a **PUT**  request from the Vote Service to the Poll Service (/api/poll/vote).
+
+**Request body:**
 
 ```json
 {
@@ -146,6 +164,8 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
     "voteCount": vote-count // int
 }
 ```
+
+---
 
 #### 2.3.3) Get Vote Count
 
@@ -170,3 +190,5 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
     "voteCount": vote-count // int
 }
 ```
+
+---
