@@ -2,13 +2,13 @@
 
 ## Table of Contents
 
-[1.About](#1-about)
-[2.Architecture](#2-architecture)
-&emsp; [2.1 Ports](#21-ports)
-&emsp; [2.2 Database Schema](#22-database-schema)
-&emsp; [2.3 Endpoints](#23-endpoints)
-&emsp; &emsp; [2.3.1 Vote on Poll](#231-vote-on-poll)
-&emsp; &emsp; [2.3.2 Remove Vote from Poll](#232-remove-vote-from-poll)
+[1. About](#1-about)  
+[2. Architecture](#2-architecture)  
+&emsp; [2.1 Ports](#21-ports)  
+&emsp; [2.2 Database Schema](#22-database-schema)  
+&emsp; [2.3 Endpoints](#23-endpoints)  
+&emsp; &emsp; [2.3.1 Vote on Poll](#231-vote-on-poll)  
+&emsp; &emsp; [2.3.2 Remove Vote from Poll](#232-remove-vote-from-poll)  
 &emsp; &emsp; [2.3.3 Get Vote Count](#233-get-vote-count)
 
 <br />
