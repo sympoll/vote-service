@@ -56,7 +56,8 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 ```diff
 {
     "userId": "user-id", // UUID
-    "votingItemId": "voting-item-id" // UUID
+    "votingItemId": "voting-item-id", // UUID
+    "action": "add"
 }
 ```
 **Poll Service Response:**
@@ -106,7 +107,8 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 ```diff
 {
     "userId": "user-id", // UUID
-    "votingItemId": "voting-item-id" // UUID
+    "votingItemId": "voting-item-id", // UUID
+    "action": "remove"
 }
 ```
 **Poll Service Response:**
