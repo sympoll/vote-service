@@ -2,18 +2,16 @@
 
 ## Table of Contents
 
-1. [About](#1-about)
-2. [Architecture](#2-architecture)
-  - [2.1 Ports](#21-ports)
-  - [2.2 Database Schema](#22-database-schema)
-  - [2.3 Endpoints](#23-endpoints)
-    - [2.3.1 Vote on Poll](#231-vote-on-poll)
-    - [2.3.2 Remove Vote from Poll](#232-remove-vote-from-poll)
-    - [2.3.3 Get Vote Count](#233-get-vote-count)
+[1.About](#1-about)
+[2.Architecture](#2-architecture)
+&emsp; [2.1 Ports](#21-ports)
+&emsp; [2.2 Database Schema](#22-database-schema)
+&emsp; [2.3 Endpoints](#23-endpoints)
+&emsp; &emsp; [2.3.1 Vote on Poll](#231-vote-on-poll)
+&emsp; &emsp; [2.3.2 Remove Vote from Poll](#232-remove-vote-from-poll)
+&emsp; &emsp; [2.3.3 Get Vote Count](#233-get-vote-count)
 
 <br />
-
-
 
 ## 1) About
 
@@ -30,7 +28,6 @@ The Vote Service is responsible for handling user votes.
 
 
 ## 2) Architecture
-
 ### 2.1) Ports
 
 - **Service port:**  8084
@@ -38,7 +35,6 @@ The Vote Service is responsible for handling user votes.
 - **Database port:**  5434
 
 <br />
-
 
 
 ### 2.2) Database Schema
@@ -53,17 +49,15 @@ CREATE TABLE votes
     vote_datetime  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
+
 <br />
-
-
 
 ### 2.3) Endpoints
 **BASE URL:**  `/api/vote`
 For each endpoint, use the base URL along with the URL extension if provided.
-<br />
-
 
 ---
+
 #### 2.3.1) Vote on Poll
 
 - **Method:**  POST
@@ -115,9 +109,6 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
     "voteCount": vote-count // int
 }
 ```
-<br />
-
-
 
 ---
 
@@ -173,9 +164,6 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
     "voteCount": vote-count // int
 }
 ```
-<br />
-
-
 
 ---
 
