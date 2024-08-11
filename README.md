@@ -1,5 +1,16 @@
 # vote-service
 
+## Table of Contents
+
+1. [About](#1-about)
+
+2. [Architecture](#2-architecture)
+- [2.1 Ports](#21-ports)
+
+- [2.2 Database Schema](#22-database-schema)
+
+- [2.3 Endpoints](#23-endpoints)
+
 ## 1) About
 
 The Vote Service is responsible for handling user votes.
@@ -18,30 +29,42 @@ The Vote Service is responsible for handling user votes.
 
 - **Database port:**  5434
 
-### 2.2) Endpoints
+### 2.2) Database Schema
+`votes` Table:**
+
+```sql
+CREATE TABLE votes
+(
+    vote_id        UUID PRIMARY KEY,
+    user_id        UUID NOT NULL,
+    voting_item_id INT  NOT NULL,
+    vote_datetime  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### 2.3) Endpoints
 **BASE URL:**  `/api/vote`
 For each endpoint, use the base URL along with the URL extension if provided.
-
-#### 2.2.1) Vote on Poll
+#### 2.3.1) Vote on Poll
 
 - **Method:**  POST
 
 - **Description:**  Creates a vote in the Vote Service's database.
   **Request body:**
 
-```diff
+```json
 {
     "userId": "user-id", // UUID
     "votingItemId": "voting-item-id" // UUID
 }
 ```
 **Response:**
-
 - **Status Code:**  201
 
 - **Response body:**
 
-```diff
+
+```json
 {
     "voteId": "vote-id", // UUID
     "userId": "user-id", // UUID
@@ -53,7 +76,7 @@ For each endpoint, use the base URL along with the URL extension if provided.
 ##### Poll Service Interaction
 A call to this endpoint also triggers a **PUT**  request from the Vote Service to the Poll Service.**Request body:**
 
-```diff
+```json
 {
     "userId": "user-id", // UUID
     "votingItemId": "voting-item-id", // UUID
@@ -66,33 +89,33 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 - **Response body:**
 
 
-```diff
+```json
 {
     "votingItemDescription": "voting-item-description", // String
     "voteCount": vote-count // int
 }
 ```
 
-#### 2.2.2) Remove Vote from Poll
+#### 2.3.2) Remove Vote from Poll
 
 - **Method:**  DELETE
 
 - **Description:**  Deletes a vote from the Vote Service's database.
   **Request body:**
 
-```diff
+```json
 {
     "userId": "user-id", // UUID
     "votingItemId": "voting-item-id" // UUID
 }
 ```
-Note: If possible, consider saving the `voteId` on the option the user voted for on the client side. This `voteId` can then be sent to delete the vote in the database.***Response:**
+**Response:**
 - **Status Code:**  200
 
 - **Response body:**
 
 
-```diff
+```json
 {
     "voteId": "vote-id", // UUID
     "userId": "user-id", // UUID
@@ -104,7 +127,7 @@ Note: If possible, consider saving the `voteId` on the option the user voted for
 ##### Poll Service Interaction
 A call to this endpoint also triggers a **PUT**  request from the Vote Service to the Poll Service.**Request body:**
 
-```diff
+```json
 {
     "userId": "user-id", // UUID
     "votingItemId": "voting-item-id", // UUID
@@ -117,21 +140,21 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 - **Response body:**
 
 
-```diff
+```json
 {
     "votingItemDescription": "voting-item-description", // String
     "voteCount": vote-count // int
 }
 ```
 
-#### 2.2.3) Get Vote Count
+#### 2.3.3) Get Vote Count
 
 - **Method:**  GET
 
 - **Description:**  Returns the number of votes for a specified voting item by counting the instances in the database.
   **Request body:**
 
-```diff
+```json
 {
     "votingItemId": "voting-item-id" // UUID
 }
@@ -142,7 +165,7 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 - **Response body:**
 
 
-```diff
+```json
 {
     "voteCount": vote-count // int
 }
