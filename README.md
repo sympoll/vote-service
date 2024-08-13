@@ -93,7 +93,6 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 
 ```json
 {
-    "userId": "user-id", // UUID
     "votingItemId": "voting-item-id", // UUID
     "action": "add"
 }
@@ -147,7 +146,6 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 
 ```json
 {
-    "userId": "user-id", // UUID
     "votingItemId": "voting-item-id", // UUID
     "action": "remove"
 }
@@ -176,7 +174,7 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 
 ```json
 {
-    "votingItemId": "voting-item-id" // UUID
+    "votingItemId": "voting-item-id" // int
 }
 ```
 **Response:**
