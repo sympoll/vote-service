@@ -68,7 +68,7 @@ For each endpoint, use the base URL along with the URL extension if provided.
 ```json
 {
     "userId": "user-id", // UUID
-    "votingItemId": "voting-item-id" // UUID
+    "votingItemId": "voting-item-id" // int
 }
 ```
 **Response:**
@@ -81,7 +81,7 @@ For each endpoint, use the base URL along with the URL extension if provided.
 {
     "voteId": "vote-id", // UUID
     "userId": "user-id", // UUID
-    "votingItemId": "voting-item-id", // UUID
+    "votingItemId": "voting-item-id", // int
     "voteDateTime": "vote-date-time" // LocalDateTime
 }
 ```
@@ -93,7 +93,7 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 
 ```json
 {
-    "votingItemId": "voting-item-id", // UUID
+    "votingItemId": "voting-item-id", // int
     "action": "add"
 }
 ```
@@ -121,7 +121,7 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 ```json
 {
     "userId": "user-id", // UUID
-    "votingItemId": "voting-item-id" // UUID
+    "votingItemId": "voting-item-id" // int
 }
 ```
 **Response:**
@@ -134,7 +134,7 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 {
     "voteId": "vote-id", // UUID
     "userId": "user-id", // UUID
-    "votingItemId": "voting-item-id", // UUID
+    "votingItemId": "voting-item-id", // int
     "voteDateTime": "vote-date-time" // LocalDateTime
 }
 ```
@@ -146,8 +146,8 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 
 ```json
 {
-    "votingItemId": "voting-item-id", // UUID
-    "action": "remove"
+    "votingItemId": "voting-item-id", // int
+    "action": "remove" // String
 }
 ```
 **Poll Service Response:**
