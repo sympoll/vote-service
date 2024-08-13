@@ -5,6 +5,7 @@ import com.MTAPizza.Sympoll.votingservice.dto.vote.CountVotesRequest;
 import com.MTAPizza.Sympoll.votingservice.dto.vote.CountVotesResponse;
 import com.MTAPizza.Sympoll.votingservice.dto.vote.VoteRequest;
 import com.MTAPizza.Sympoll.votingservice.dto.vote.VoteResponse;
+import com.MTAPizza.Sympoll.votingservice.model.vote.Vote;
 import com.MTAPizza.Sympoll.votingservice.service.vote.VoteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ public class ServiceController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public VoteResponse createVote(@RequestBody VoteRequest voteRequest) {
+    public Vote createVote(@RequestBody VoteRequest voteRequest) {
         log.info("Received request to create a vote");
         log.debug("Vote received to create: {}", voteRequest);
         return voteService.createVote(voteRequest);
