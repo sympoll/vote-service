@@ -30,7 +30,7 @@ public class ServiceController {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
-    public VoteResponse deleteVote(@RequestBody VoteRequest voteRequest) {
+    public Vote deleteVote(@RequestBody VoteRequest voteRequest) {
         log.info("Received request to delete a vote");
         log.debug("Vote received to delete: {}", voteRequest);
         return voteService.deleteVote(voteRequest);

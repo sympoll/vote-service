@@ -11,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.client.ResourceAccessException;
 
 @Service
 @RequiredArgsConstructor
@@ -22,42 +20,48 @@ public class VoteService {
     private final PollClient pollClient;
 
     public Vote createVote(VoteRequest voteRequest) {
-        PollServiceVoteRequest requestBody = new PollServiceVoteRequest(
-                voteRequest.votingItemId(),
-                VoteAction.add.name()
-        );
+        PollServiceVoteRequest requestBody = createPollServiceVoteRequest(voteRequest, VoteAction.add);
 
-        try {
-            ResponseEntity<String> response = pollClient.voteInPoll(requestBody);
 
-            if (response.getStatusCode() == HttpStatus.OK) {
-                Vote entity = voteRepository.save(Vote.builder()
-                        .userId(voteRequest.userId())
-                        .votingItemId(voteRequest.votingItemId())
-                        .build());
+        ResponseEntity<String> response = pollClient.voteInPoll(requestBody);
 
-                return entity;
-            } else {
-                log.error("Failed to vote in poll. Status code: {}", response.getStatusCode());
-            }
-        } catch (HttpStatusCodeException ex) {
-            // Handle HTTP errors
-            log.error("HTTP error while voting in poll: {}", ex.getMessage());
-        } catch (ResourceAccessException ex) {
-            // Handle network/resource access errors
-            log.error("Resource access error while voting in poll: {}", ex.getMessage());
-        } catch (Exception ex) {
-            // Handle other exceptions
-            log.error("An unexpected error occurred: {}", ex.getMessage());
+        if (response.getStatusCode() == HttpStatus.OK) {
+            Vote entity = voteRepository.save(Vote.builder()
+                    .userId(voteRequest.userId())
+                    .votingItemId(voteRequest.votingItemId())
+                    .build());
+
+            return entity;
+        } else {
+            log.error("Failed to vote in poll. Status code: {}", response.getStatusCode());
+            throw new RuntimeException("Failed to vote in poll. Status code: " + response.getStatusCode());
         }
-
-        // Return a meaningful response or throw a custom exception
-        throw new PollServiceUnavailableException("Unable to vote in the poll service.");
     }
 
-    public VoteResponse deleteVote(VoteRequest voteRequest) {
+    public Vote deleteVote(VoteRequest voteRequest) {
+        PollServiceVoteRequest requestBody = createPollServiceVoteRequest(voteRequest, VoteAction.remove);
+
+        ResponseEntity<String> response = pollClient.voteInPoll(requestBody);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return voteRepository.deleteVoteByUserIdAndVotingItemId(voteRequest.userId(), voteRequest.votingItemId());
+        } else {
+            log.error("Failed to remove vote from poll. Status code: {}", response.getStatusCode());
+            throw new RuntimeException("Failed to remove vote from poll. Status code: " + response.getStatusCode());
+        }
     }
+
+    private PollServiceVoteRequest createPollServiceVoteRequest(VoteRequest voteRequest, VoteAction action) {
+        return new PollServiceVoteRequest(
+                voteRequest.votingItemId(),
+                action.name()
+        );
+    }
+
 
     public CountVotesResponse countVotes(CountVotesRequest countVotesRequest) {
+        return new CountVotesResponse(
+                voteRepository.countByVotingItemId(
+                        countVotesRequest.votingItemId()));
     }
 }
