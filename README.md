@@ -169,12 +169,11 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 
 - **Method:**  GET
 
-- **Description:**  Returns the number of votes for a specified voting item by counting the instances in the database.
-  **Request body:**
+- **Description:**  Returns the number of votes for each specified voting item ID. The request body should include a list of voting item IDs, and the response will provide the vote count for each item in a key-value format.**Request body:**
 
 ```json
 {
-    "votingItemId": "voting-item-id" // int
+    "votingItemIds": [1, 2, 3] // Array of voting item IDs (int)
 }
 ```
 **Response:**
@@ -185,8 +184,13 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 
 ```json
 {
-    "voteCount": vote-count // int
+    "voteCounts": {
+        "1": 10, // Voting item ID and its vote count
+        "2": 5,
+        "3": 8
+    }
 }
 ```
+**Note:**  The `voteCounts` field is an object where each key is a voting item ID (as an integer) and the value is the corresponding vote count.
 
 ---
