@@ -1,4 +1,6 @@
 package com.MTAPizza.Sympoll.votingservice.dto.vote;
 
-public record CountVotesResponse(int voteCount) {
+import java.util.Map;
+
+public record CountVotesResponse(Map<Integer, Integer> voteCounts) {
 }

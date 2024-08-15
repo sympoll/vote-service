@@ -1,4 +1,6 @@
 package com.MTAPizza.Sympoll.votingservice.dto.vote;
 
-public record CountVotesRequest(int votingItemId) {
+import java.util.List;
+
+public record CountVotesRequest(List<Integer> votingItemIds){
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class ServiceController {
     private final VoteService voteService;
 
+    
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Vote createVote(@RequestBody VoteRequest voteRequest) {
@@ -39,7 +40,7 @@ public class ServiceController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public CountVotesResponse countVotes(@RequestBody CountVotesRequest countVotesRequest) {
-        log.info("Received request to count votes for voting item {}", countVotesRequest.votingItemId());
+        log.info("Received request to count votes for voting items {}", countVotesRequest.votingItemIds());
         return voteService.countVotes(countVotesRequest);
     }
 
