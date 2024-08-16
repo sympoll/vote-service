@@ -124,7 +124,7 @@ class VotingServiceApplicationTests {
                 .contentType("application/json")
                 .body(requestBodyJson)
                 .when()
-                .delete("/api/vote/count")
+                .post("/api/vote/count")
                 .then()
                 .statusCode(200)
                 .extract().response();
