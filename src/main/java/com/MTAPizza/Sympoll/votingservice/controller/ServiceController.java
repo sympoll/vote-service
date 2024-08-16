@@ -1,16 +1,13 @@
 package com.MTAPizza.Sympoll.votingservice.controller;
 
-import com.MTAPizza.Sympoll.votingservice.dto.health.HealthResponse;
 import com.MTAPizza.Sympoll.votingservice.dto.vote.CountVotesRequest;
 import com.MTAPizza.Sympoll.votingservice.dto.vote.CountVotesResponse;
 import com.MTAPizza.Sympoll.votingservice.dto.vote.VoteRequest;
-import com.MTAPizza.Sympoll.votingservice.dto.vote.VoteResponse;
 import com.MTAPizza.Sympoll.votingservice.model.vote.Vote;
 import com.MTAPizza.Sympoll.votingservice.service.vote.VoteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;

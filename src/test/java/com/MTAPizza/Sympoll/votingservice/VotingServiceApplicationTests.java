@@ -1,5 +1,6 @@
 package com.MTAPizza.Sympoll.votingservice;
 
+import com.MTAPizza.Sympoll.votingservice.dto.vote.CountVotesResponse;
 import com.MTAPizza.Sympoll.votingservice.dto.vote.VoteResponse;
 import com.MTAPizza.Sympoll.votingservice.validator.exception.VoteExceptionHandler;
 import com.google.gson.Gson;
@@ -17,6 +18,10 @@ import org.springframework.web.client.RestTemplate;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -113,6 +118,23 @@ class VotingServiceApplicationTests {
                     }
                 """;
 
-        Response response = RestAssured.given
+        Response response = RestAssured.given()
+                .contentType("application/json")
+                .body(requestBodyJson)
+                .when()
+                .delete("/api/vote/count")
+                .then()
+                .statusCode(200)
+                .extract().response();
+
+        CountVotesResponse countVotesResponse = response.as(CountVotesResponse.class);
+
+        /* This map is the vote counts in the example db
+        * voting item id 3 has 2 counts etc*/
+        Map<Integer, Integer> actualVoteCounts = new TreeMap<>();
+        actualVoteCounts.put(3, 2);
+        actualVoteCounts.put(1, 1);
+
+        assertEquals(actualVoteCounts, countVotesResponse.voteCounts());
     }
 }
