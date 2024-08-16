@@ -7,9 +7,10 @@
 &emsp; [2.1 Ports](#21-ports)  
 &emsp; [2.2 Database Schema](#22-database-schema)  
 &emsp; [2.3 Endpoints](#23-endpoints)  
-&emsp; &emsp; [2.3.1 Vote on Poll](#231-vote-on-poll)  
-&emsp; &emsp; [2.3.2 Remove Vote from Poll](#232-remove-vote-from-poll)  
-&emsp; &emsp; [2.3.3 Get Vote Count](#233-get-vote-count)
+&emsp; &emsp; [2.3.1 Health Check](#231-health-check)  
+&emsp; &emsp; [2.3.2 Vote on Poll](#232-vote-on-poll)  
+&emsp; &emsp; [2.3.3 Remove Vote from Poll](#233-remove-vote-from-poll)  
+&emsp; &emsp; [2.3.4 Get Vote Count](#234-get-vote-count)
 
 <br />
 
@@ -58,11 +59,35 @@ For each endpoint, use the base URL along with the URL extension if provided.
 
 ---
 
-#### 2.3.1) Vote on Poll
+#### 2.3.1) Health Check
+
+- **Method:**  POST
+
+- **Endpoint:** `/health`
+
+- **Description:**  Standard service health check.
+
+
+**Response:**
+- **Status Code:**  200
+
+- **Response body:**
+
+
+```json
+{
+    "status" : "running"
+}
+```
+
+---
+
+#### 2.3.2) Vote on Poll
 
 - **Method:**  POST
 
 - **Description:**  Creates a vote in the Vote Service's database.
+- 
   **Request body:**
 
 ```json
@@ -71,11 +96,12 @@ For each endpoint, use the base URL along with the URL extension if provided.
     "votingItemId": "voting-item-id" // int
 }
 ```
+
 **Response:**
+
 - **Status Code:**  201
 
 - **Response body:**
-
 
 ```json
 {
@@ -97,7 +123,9 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
     "action": "add"
 }
 ```
+
 **Poll Service Response:**
+
 - **Status Code:**  200
 
 - **Response body:**
@@ -111,12 +139,13 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 
 ---
 
-#### 2.3.2) Remove Vote from Poll
+#### 2.3.3) Remove Vote from Poll
 
 - **Method:**  DELETE
 
 - **Description:**  Deletes a vote from the Vote Service's database.
-  **Request body:**
+
+-  **Request body:**
 
 ```json
 {
@@ -124,7 +153,9 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
     "votingItemId": "voting-item-id" // int
 }
 ```
+
 **Response:**
+
 - **Status Code:**  200
 
 - **Response body:**
@@ -151,10 +182,10 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 }
 ```
 **Poll Service Response:**
+
 - **Status Code:**  200
 
 - **Response body:**
-
 
 ```json
 {
@@ -165,9 +196,11 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 
 ---
 
-#### 2.3.3) Get Vote Count
+#### 2.3.4) Get Vote Count
 
-- **Method:**  GET
+- **Method:**  POST
+
+- **Endpoint:** `/count`
 
 - **Description:**  Returns the number of votes for each specified voting item ID. The request body should include a list of voting item IDs, and the response will provide the vote count for each item in a key-value format.**Request body:**
 
@@ -177,10 +210,10 @@ A call to this endpoint also triggers a **PUT**  request from the Vote Service t
 }
 ```
 **Response:**
+
 - **Status Code:**  200
 
 - **Response body:**
-
 
 ```json
 {

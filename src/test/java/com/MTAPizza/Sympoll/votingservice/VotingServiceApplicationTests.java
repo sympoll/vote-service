@@ -103,4 +103,16 @@ class VotingServiceApplicationTests {
         VoteResponse voteResponse = response.as(VoteResponse.class);
         assertNotNull(voteResponse.voteId());
     }
+
+    @Test
+    @Order(3)
+    void shouldCountVotes() {
+        String requestBodyJson = """
+                    {
+                        "votingItemIds": [1,3]
+                    }
+                """;
+
+        Response response = RestAssured.given
+    }
 }

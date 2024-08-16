@@ -10,7 +10,11 @@ import com.MTAPizza.Sympoll.votingservice.service.vote.VoteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping
@@ -37,7 +41,7 @@ public class ServiceController {
         return voteService.deleteVote(voteRequest);
     }
 
-    @GetMapping
+    @PostMapping("/count")
     @ResponseStatus(HttpStatus.OK)
     public CountVotesResponse countVotes(@RequestBody CountVotesRequest countVotesRequest) {
         log.info("Received request to count votes for voting items {}", countVotesRequest.votingItemIds());
@@ -45,9 +49,11 @@ public class ServiceController {
     }
 
     @GetMapping("/health")
-    @ResponseStatus(HttpStatus.OK)
-    public HealthResponse healthCheck() {
-        log.info("Received health check request, returning OK");
-        return new HealthResponse("Running", "Poll Management Service is up and running.");
+    public ResponseEntity<Map<String,String>> healthCheck() {
+        Map<String, String> healthStatus = new HashMap<>();
+        healthStatus.put("status", "running");
+        // Perform custom health check logic here
+        // For simplicity, we're just returning a static "OK" response
+        return new ResponseEntity<>( healthStatus, HttpStatus.OK);
     }
 }
