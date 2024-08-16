@@ -2,6 +2,7 @@ package com.MTAPizza.Sympoll.votingservice;
 
 import com.MTAPizza.Sympoll.votingservice.dto.vote.CountVotesResponse;
 import com.MTAPizza.Sympoll.votingservice.dto.vote.VoteResponse;
+import com.MTAPizza.Sympoll.votingservice.stub.PollClientStub;
 import com.MTAPizza.Sympoll.votingservice.validator.exception.VoteExceptionHandler;
 import com.google.gson.Gson;
 import io.restassured.RestAssured;
@@ -54,6 +55,7 @@ class VotingServiceApplicationTests {
         RestAssured.port = port;
         restTemplate = new RestTemplate();
         mockServer = MockRestServiceServer.createServer(restTemplate);
+        PollClientStub.initStubs();
     }
 
     static {
