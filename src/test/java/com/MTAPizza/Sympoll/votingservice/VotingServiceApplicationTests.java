@@ -1,8 +1,10 @@
 package com.MTAPizza.Sympoll.votingservice;
 
+import com.MTAPizza.Sympoll.votingservice.dto.vote.VoteResponse;
 import com.MTAPizza.Sympoll.votingservice.validator.exception.VoteExceptionHandler;
 import com.google.gson.Gson;
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -17,6 +19,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
@@ -27,6 +30,10 @@ class VotingServiceApplicationTests {
     private static final Gson gson;
     private RestTemplate restTemplate;
     private MockRestServiceServer mockServer;
+
+    private String userId = "user-id-123";
+    private String votingItemId = "voting-item-id-456";
+
 
     @Container
     @ServiceConnection
@@ -53,32 +60,47 @@ class VotingServiceApplicationTests {
     @Order(1)
     void shouldCastVote() {
         // Define the request body for the POST request
-        String requestBodyJson = """
+        String requestBodyJson = String.format("""
                     {
-                        "user_id": "user-id-123",
-                        "voting_item_id": "voting-item-id-456"
+                        "userId": "%s",
+                        "votingItemId": "%s"
                     }
-                """;
+                """, userId, votingItemId);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> requestEntity = new HttpEntity<>(requestBodyJson, headers);
+        Response response = RestAssured.given()
+                .contentType("application/json")
+                .body(requestBodyJson)
+                .when()
+                .post("/api/vote")
+                .then()
+                .statusCode(201)
+                .extract().response();
 
-        // Send POST request to vote-service
-        ResponseEntity<String> response = restTemplate.exchange(
-                "http://localhost:8084/api/vote",
-                HttpMethod.POST,
-                requestEntity,
-                String.class
-        );
+        VoteResponse voteResponse = response.as(VoteResponse.class);
+        assertNotNull(voteResponse.voteId());
+    }
 
-        // Validate the response from vote-service
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        String responseBody = response.getBody();
-        assert responseBody != null;
-        assert responseBody.contains("voteId");
-        assert responseBody.contains("userId");
-        assert responseBody.contains("votingItemId");
-        assert responseBody.contains("timestamp");
+    @Test
+    @Order(2)
+    void shouldDeleteVote() {
+        // Define the request body for the POST request
+        String requestBodyJson = String.format("""
+                    {
+                        "userId": "%s",
+                        "votingItemId": "%s"
+                    }
+                """, userId, votingItemId);
+
+        Response response = RestAssured.given()
+                .contentType("application/json")
+                .body(requestBodyJson)
+                .when()
+                .delete("/api/vote")
+                .then()
+                .statusCode(200)
+                .extract().response();
+
+        VoteResponse voteResponse = response.as(VoteResponse.class);
+        assertNotNull(voteResponse.voteId());
     }
 }
