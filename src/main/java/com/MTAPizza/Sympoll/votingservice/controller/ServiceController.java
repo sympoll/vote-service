@@ -21,7 +21,7 @@ import java.util.Map;
 public class ServiceController {
     private final VoteService voteService;
 
-    
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Vote createVote(@RequestBody VoteRequest voteRequest) {
@@ -47,7 +47,7 @@ public class ServiceController {
 
     @GetMapping("/health")
     @ResponseStatus(HttpStatus.OK)
-    public Map<String,String> healthCheck() {
+    public Map<String, String> healthCheck() {
         log.info("Received request to health check");
         Map<String, String> healthStatus = new HashMap<>();
         healthStatus.put("status", "running");
