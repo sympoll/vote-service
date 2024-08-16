@@ -26,7 +26,6 @@ public class ServiceController {
     @ResponseStatus(HttpStatus.CREATED)
     public Vote createVote(@RequestBody VoteRequest voteRequest) {
         log.info("Received request to create a vote");
-        log.debug("Vote received to create: {}", voteRequest);
         return voteService.createVote(voteRequest);
     }
 
@@ -34,7 +33,6 @@ public class ServiceController {
     @ResponseStatus(HttpStatus.OK)
     public Vote deleteVote(@RequestBody VoteRequest voteRequest) {
         log.info("Received request to delete a vote");
-        log.debug("Vote received to delete: {}", voteRequest);
         return voteService.deleteVote(voteRequest);
     }
 
