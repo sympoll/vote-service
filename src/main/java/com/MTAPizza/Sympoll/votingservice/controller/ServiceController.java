@@ -49,11 +49,12 @@ public class ServiceController {
     }
 
     @GetMapping("/health")
-    public ResponseEntity<Map<String,String>> healthCheck() {
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String,String> healthCheck() {
         Map<String, String> healthStatus = new HashMap<>();
         healthStatus.put("status", "running");
         // Perform custom health check logic here
         // For simplicity, we're just returning a static "OK" response
-        return new ResponseEntity<>( healthStatus, HttpStatus.OK);
+        return healthStatus;
     }
 }
