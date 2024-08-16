@@ -80,7 +80,7 @@ public class VoteService {
      * Creates a {@link PollServiceVoteRequest} with the provided {@link VoteRequest} and action.
      *
      * @param voteRequest The request containing vote details.
-     * @param action The action to be performed (add or remove).
+     * @param action      The action to be performed (add or remove).
      * @return A new {@link PollServiceVoteRequest} instance.
      */
     private PollServiceVoteRequest createPollServiceVoteRequest(VoteRequest voteRequest, VoteAction action) {
@@ -97,9 +97,9 @@ public class VoteService {
      * @return A {@link CountVotesResponse} containing the count of votes for each voting item ID.
      */
     public CountVotesResponse countVotes(CountVotesRequest countVotesRequest) {
-       Map<Integer, Integer> voteCounts = new TreeMap<>();
+        Map<Integer, Integer> voteCounts = new TreeMap<>();
 
-        for(int votingItemId : countVotesRequest.votingItemIds()) {
+        for (int votingItemId : countVotesRequest.votingItemIds()) {
             voteCounts.put(votingItemId, voteRepository.countByVotingItemId(votingItemId));
         }
 

@@ -132,7 +132,7 @@ class VotingServiceApplicationTests {
         CountVotesResponse countVotesResponse = response.as(CountVotesResponse.class);
 
         /* This map is the vote counts in the example db
-        * voting item id 3 has 2 counts etc*/
+         * voting item id 3 has 2 counts etc*/
         Map<Integer, Integer> actualVoteCounts = new TreeMap<>();
         actualVoteCounts.put(3, 2);
         actualVoteCounts.put(1, 1);

@@ -18,11 +18,11 @@ public class PollClientStub {
                         .withHeader("Content-Type", "application/json")
                         .withStatus(200)
                         .withBody("""
-                            {
-                                "votingItemDescription": "string",
-                                "voteCount": 0
-                            }
-                            """)));
+                                {
+                                    "votingItemDescription": "string",
+                                    "voteCount": 0
+                                }
+                                """)));
 
     }
 }
