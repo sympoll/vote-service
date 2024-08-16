@@ -48,10 +48,10 @@ public class ServiceController {
     @GetMapping("/health")
     @ResponseStatus(HttpStatus.OK)
     public Map<String,String> healthCheck() {
+        log.info("Received request to health check");
         Map<String, String> healthStatus = new HashMap<>();
         healthStatus.put("status", "running");
-        // Perform custom health check logic here
-        // For simplicity, we're just returning a static "OK" response
+
         return healthStatus;
     }
 }

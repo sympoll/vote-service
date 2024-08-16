@@ -37,8 +37,8 @@ class VotingServiceApplicationTests {
     private RestTemplate restTemplate;
     private MockRestServiceServer mockServer;
 
-    private String userId = "user-id-123";
-    private String votingItemId = "voting-item-id-456";
+    private final String userId = "9b314136-6e1d-4a8f-82ce-20b9de26de0d";
+    private final int votingItemId = 2;
 
 
     @Container
@@ -70,7 +70,7 @@ class VotingServiceApplicationTests {
         String requestBodyJson = String.format("""
                     {
                         "userId": "%s",
-                        "votingItemId": "%s"
+                        "votingItemId": %d
                     }
                 """, userId, votingItemId);
 
@@ -94,7 +94,7 @@ class VotingServiceApplicationTests {
         String requestBodyJson = String.format("""
                     {
                         "userId": "%s",
-                        "votingItemId": "%s"
+                        "votingItemId": %d
                     }
                 """, userId, votingItemId);
 
