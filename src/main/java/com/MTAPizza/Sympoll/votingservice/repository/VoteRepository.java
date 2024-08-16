@@ -8,6 +8,7 @@ import java.util.UUID;
 
 @Repository
 public interface VoteRepository extends JpaRepository<Vote, UUID> {
-    Vote deleteVoteByUserIdAndVotingItemId(UUID userId, int votingItemId);
+    Vote findByUserIdAndAndVotingItemId(UUID userId, int votingItemId);
+    int deleteVoteByUserIdAndVotingItemId(UUID userId, int votingItemId);
     int countByVotingItemId(int votingItemId);
 }

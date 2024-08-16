@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -57,13 +58,18 @@ public class VoteService {
      * @return The deleted {@link Vote} entity.
      * @throws RuntimeException If the poll client fails to unregister the vote.
      */
+    @Transactional
     public Vote deleteVote(VoteRequest voteRequest) {
         PollServiceVoteRequest requestBody = createPollServiceVoteRequest(voteRequest, VoteAction.remove);
 
         ResponseEntity<String> response = pollClient.voteInPoll(requestBody);
 
         if (response.getStatusCode() == HttpStatus.OK) {
-            return voteRepository.deleteVoteByUserIdAndVotingItemId(voteRequest.userId(), voteRequest.votingItemId());
+            Vote ret = voteRepository.findByUserIdAndAndVotingItemId(voteRequest.userId(), voteRequest.votingItemId());
+            voteRepository.deleteVoteByUserIdAndVotingItemId(voteRequest.userId(), voteRequest.votingItemId());
+
+            return ret;
+
         } else {
             log.error("Failed to remove vote from poll. Status code: {}", response.getStatusCode());
             throw new RuntimeException("Failed to remove vote from poll. Status code: " + response.getStatusCode());
