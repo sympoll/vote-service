@@ -90,7 +90,7 @@ class VotingServiceApplicationTests {
     @Test
     @Order(2)
     void shouldDeleteVote() {
-        // Define the request body for the POST request
+        // Define the request body for the DELETE request
         String requestBodyJson = String.format("""
                     {
                         "userId": "%s",
