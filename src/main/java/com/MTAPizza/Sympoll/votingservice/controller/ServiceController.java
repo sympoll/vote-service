@@ -17,7 +17,6 @@ import java.util.Map;
 @RequestMapping("/api/vote")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin
 public class ServiceController {
     private final VoteService voteService;
 
