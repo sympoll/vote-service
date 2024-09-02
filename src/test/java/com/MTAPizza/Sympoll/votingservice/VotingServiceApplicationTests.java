@@ -1,11 +1,10 @@
 package com.MTAPizza.Sympoll.votingservice;
 
 import com.MTAPizza.Sympoll.votingservice.dto.vote.CountVotesResponse;
-import com.MTAPizza.Sympoll.votingservice.dto.vote.PollChoiceResponse;
+import com.MTAPizza.Sympoll.votingservice.dto.vote.VotingItemsCheckedResponse;
 import com.MTAPizza.Sympoll.votingservice.dto.vote.VoteResponse;
 import com.MTAPizza.Sympoll.votingservice.stub.PollClientStub;
 import com.MTAPizza.Sympoll.votingservice.validator.exception.VoteExceptionHandler;
-import com.google.gson.Gson;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
@@ -14,9 +13,6 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.*;
-import org.springframework.test.web.client.MockRestServiceServer;
-import org.springframework.web.client.RestTemplate;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -150,11 +146,11 @@ class VotingServiceApplicationTests {
                 .statusCode(200)
                 .extract().response();
 
-        PollChoiceResponse pollChoiceResponse = response.as(PollChoiceResponse.class);
+        VotingItemsCheckedResponse votingItemsCheckedResponse = response.as(VotingItemsCheckedResponse.class);
         // Assert that the returned list contains exactly [1, 3]
-        assertNotNull(pollChoiceResponse, "The response should not be null");
+        assertNotNull(votingItemsCheckedResponse, "The response should not be null");
         Set<Integer> expectedItems = new HashSet<>(Arrays.asList(1, 3));
-        Set<Integer> actualItems = new HashSet<>(pollChoiceResponse.votingItemIds());
+        Set<Integer> actualItems = new HashSet<>(votingItemsCheckedResponse.votingItemIds());
         assertEquals(expectedItems, actualItems, "The voting items should match exactly [1, 3]");
     }
 }

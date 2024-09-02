@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -53,8 +52,8 @@ public class ServiceController {
 
     @PostMapping("/user-choices")
     @ResponseStatus(HttpStatus.OK)
-    public PollChoiceResponse getAllUerChoices(@RequestBody PollChoiceRequest pollChoiceRequest){
+    public VotingItemsCheckedResponse getAllUerChoices(@RequestBody VotingItemsCheckedRequest votingItemsCheckedRequest){
         log.info("Received request to get user choices");
-        return voteService.getUserChoices(pollChoiceRequest);
+        return voteService.getUserChoices(votingItemsCheckedRequest);
     }
 }
