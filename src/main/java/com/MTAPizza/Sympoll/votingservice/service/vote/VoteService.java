@@ -12,8 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -104,5 +104,17 @@ public class VoteService {
         }
 
         return new CountVotesResponse(voteCounts);
+    }
+
+    public DeleteMultipleVotesResponse deleteMultipleVotes(DeleteMultipleVotesRequest deleteMultipleVotesRequest) {
+        List<UUID> voteIds = deleteMultipleVotesRequest.votingItemIds().stream()
+                .map(votingItemId -> {
+                    UUID voteId = voteRepository.findByVotingItemId(votingItemId).getVoteId();
+                    voteRepository.deleteVoteByVotingItemId(votingItemId);
+                    return voteId;
+                })
+                .collect(Collectors.toList());
+
+        return new DeleteMultipleVotesResponse(voteIds);
     }
 }
