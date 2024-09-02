@@ -107,14 +107,13 @@ public class VoteService {
     }
 
     public DeleteMultipleVotesResponse deleteMultipleVotes(DeleteMultipleVotesRequest deleteMultipleVotesRequest) {
-        List<UUID> voteIds = deleteMultipleVotesRequest.votingItemIds().stream()
-                .map(votingItemId -> {
-                    UUID voteId = voteRepository.findByVotingItemId(votingItemId).getVoteId();
-                    voteRepository.deleteVoteByVotingItemId(votingItemId);
-                    return voteId;
-                })
+        List<Integer> votingItemIds = deleteMultipleVotesRequest.votingItemIds();
+        List<UUID> voteIds = voteRepository.findByVotingItemIdIn(votingItemIds)
+                .stream()
+                .map(Vote::getVoteId)
                 .collect(Collectors.toList());
 
+        voteRepository.deleteByVotingItemIdIn(votingItemIds);
         return new DeleteMultipleVotesResponse(voteIds);
     }
 }
