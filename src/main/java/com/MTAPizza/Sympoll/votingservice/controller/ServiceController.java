@@ -1,8 +1,6 @@
 package com.MTAPizza.Sympoll.votingservice.controller;
 
-import com.MTAPizza.Sympoll.votingservice.dto.vote.CountVotesRequest;
-import com.MTAPizza.Sympoll.votingservice.dto.vote.CountVotesResponse;
-import com.MTAPizza.Sympoll.votingservice.dto.vote.VoteRequest;
+import com.MTAPizza.Sympoll.votingservice.dto.vote.*;
 import com.MTAPizza.Sympoll.votingservice.model.vote.Vote;
 import com.MTAPizza.Sympoll.votingservice.service.vote.VoteService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -50,5 +49,12 @@ public class ServiceController {
         healthStatus.put("status", "running");
 
         return healthStatus;
+    }
+
+    @PostMapping("/user-choices")
+    @ResponseStatus(HttpStatus.OK)
+    public PollChoiceResponse getAllUerChoices(@RequestBody PollChoiceRequest pollChoiceRequest){
+        log.info("Received request to get user choices");
+        return voteService.getUserChoices(pollChoiceRequest);
     }
 }
