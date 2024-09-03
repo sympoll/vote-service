@@ -115,6 +115,7 @@ public class VoteService {
                 .collect(Collectors.toList());
 
         voteRepository.deleteByVotingItemIdIn(votingItemIds);
+        log.info("All multiple votes deleted");
         return new DeleteMultipleVotesResponse(voteIds);
     }
 }
