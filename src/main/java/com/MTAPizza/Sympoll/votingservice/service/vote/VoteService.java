@@ -106,6 +106,7 @@ public class VoteService {
         return new CountVotesResponse(voteCounts);
     }
 
+    @Transactional
     public DeleteMultipleVotesResponse deleteMultipleVotes(DeleteMultipleVotesRequest deleteMultipleVotesRequest) {
         List<Integer> votingItemIds = deleteMultipleVotesRequest.votingItemIds();
         List<UUID> voteIds = voteRepository.findByVotingItemIdIn(votingItemIds)
