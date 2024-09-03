@@ -106,6 +106,11 @@ public class VoteService {
         return new CountVotesResponse(voteCounts);
     }
 
+    /**
+     * Delete all votes related to the given voting item ids.
+     * @param deleteMultipleVotesRequest List of voting item ids.
+     * @return A DTO with the removed vote ids.
+     */
     @Transactional
     public DeleteMultipleVotesResponse deleteMultipleVotes(DeleteMultipleVotesRequest deleteMultipleVotesRequest) {
         List<Integer> votingItemIds = deleteMultipleVotesRequest.votingItemIds();
