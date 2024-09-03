@@ -1,10 +1,10 @@
 package com.MTAPizza.Sympoll.votingservice;
 
 import com.MTAPizza.Sympoll.votingservice.dto.vote.CountVotesResponse;
+import com.MTAPizza.Sympoll.votingservice.dto.vote.VotingItemsCheckedResponse;
 import com.MTAPizza.Sympoll.votingservice.dto.vote.VoteResponse;
 import com.MTAPizza.Sympoll.votingservice.stub.PollClientStub;
 import com.MTAPizza.Sympoll.votingservice.validator.exception.VoteExceptionHandler;
-import com.google.gson.Gson;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
@@ -13,19 +13,13 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.*;
-import org.springframework.test.web.client.MockRestServiceServer;
-import org.springframework.web.client.RestTemplate;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
@@ -33,11 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Import(VoteExceptionHandler.class)
 class VotingServiceApplicationTests {
-    private static final Gson gson;
-    private RestTemplate restTemplate;
-    private MockRestServiceServer mockServer;
-
-    private final String userId = "9b314136-6e1d-4a8f-82ce-20b9de26de0d";
+    private final String userId = "d13a2397-cd48-4602-b399-0e303fc401b4";
     private final int votingItemId = 2;
 
 
@@ -53,14 +43,11 @@ class VotingServiceApplicationTests {
     void setup() {
         RestAssured.baseURI = "http://localhost";
         RestAssured.port = port;
-        restTemplate = new RestTemplate();
-        mockServer = MockRestServiceServer.createServer(restTemplate);
         PollClientStub.initStubs();
     }
 
     static {
         postgreSQLContainer.start(); //  Run mock test container.
-        gson = new Gson();
     }
 
     @Test
@@ -134,9 +121,36 @@ class VotingServiceApplicationTests {
         /* This map is the vote counts in the example db
          * voting item id 3 has 2 counts etc*/
         Map<Integer, Integer> actualVoteCounts = new TreeMap<>();
-        actualVoteCounts.put(3, 2);
         actualVoteCounts.put(1, 1);
+        actualVoteCounts.put(3, 2);
 
         assertEquals(actualVoteCounts, countVotesResponse.voteCounts());
+    }
+
+    @Test
+    @Order(4)
+    void shouldGetUserChoices() {
+        String requestBodyJson = String.format("""
+                    {
+                        "votingItemIds": [1,2,3,4,5],
+                        "userId": "%s"
+                    }
+                """, userId);
+
+        Response response = RestAssured.given()
+                .contentType("application/json")
+                .body(requestBodyJson)
+                .when()
+                .post("/api/vote/user-choices")
+                .then()
+                .statusCode(200)
+                .extract().response();
+
+        VotingItemsCheckedResponse votingItemsCheckedResponse = response.as(VotingItemsCheckedResponse.class);
+        // Assert that the returned list contains exactly [1, 3]
+        assertNotNull(votingItemsCheckedResponse, "The response should not be null");
+        Set<Integer> expectedItems = new HashSet<>(Arrays.asList(1, 3));
+        Set<Integer> actualItems = new HashSet<>(votingItemsCheckedResponse.votingItemIds());
+        assertEquals(expectedItems, actualItems, "The voting items should match exactly [1, 3]");
     }
 }

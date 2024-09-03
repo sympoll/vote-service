@@ -56,4 +56,11 @@ public class ServiceController {
         log.info("Received request to delete multiple votes");
         return voteService.deleteMultipleVotes(deleteMultipleVotesRequest);
     }
+
+    @PostMapping("/user-choices")
+    @ResponseStatus(HttpStatus.OK)
+    public VotingItemsCheckedResponse getAllUerChoices(@RequestBody VotingItemsCheckedRequest votingItemsCheckedRequest){
+        log.info("Received request to get user choices");
+        return voteService.getUserChoices(votingItemsCheckedRequest);
+    }
 }

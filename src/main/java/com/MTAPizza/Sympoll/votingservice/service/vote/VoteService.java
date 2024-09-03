@@ -106,6 +106,11 @@ public class VoteService {
         return new CountVotesResponse(voteCounts);
     }
 
+    public VotingItemsCheckedResponse getUserChoices(VotingItemsCheckedRequest votingItemsCheckedRequest) {
+        return new VotingItemsCheckedResponse(
+                voteRepository.findVotingItemIdsByUserIdAndVotingItemIds(votingItemsCheckedRequest.userId(), votingItemsCheckedRequest.votingItemIds()));
+    }
+
     /**
      * Delete all votes related to the given voting item ids.
      * @param deleteMultipleVotesRequest List of voting item ids.
