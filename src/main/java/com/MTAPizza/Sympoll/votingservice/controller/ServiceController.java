@@ -1,8 +1,6 @@
 package com.MTAPizza.Sympoll.votingservice.controller;
 
-import com.MTAPizza.Sympoll.votingservice.dto.vote.CountVotesRequest;
-import com.MTAPizza.Sympoll.votingservice.dto.vote.CountVotesResponse;
-import com.MTAPizza.Sympoll.votingservice.dto.vote.VoteRequest;
+import com.MTAPizza.Sympoll.votingservice.dto.vote.*;
 import com.MTAPizza.Sympoll.votingservice.model.vote.Vote;
 import com.MTAPizza.Sympoll.votingservice.service.vote.VoteService;
 import lombok.RequiredArgsConstructor;
@@ -50,5 +48,12 @@ public class ServiceController {
         healthStatus.put("status", "running");
 
         return healthStatus;
+    }
+
+    @DeleteMapping("/delete-multiple")
+    @ResponseStatus(HttpStatus.OK)
+    public DeleteMultipleVotesResponse deleteMultipleVotes(@RequestBody DeleteMultipleVotesRequest deleteMultipleVotesRequest) {
+        log.info("Received request to delete multiple votes");
+        return voteService.deleteMultipleVotes(deleteMultipleVotesRequest);
     }
 }

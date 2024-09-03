@@ -12,8 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -104,5 +104,23 @@ public class VoteService {
         }
 
         return new CountVotesResponse(voteCounts);
+    }
+
+    /**
+     * Delete all votes related to the given voting item ids.
+     * @param deleteMultipleVotesRequest List of voting item ids.
+     * @return A DTO with the removed vote ids.
+     */
+    @Transactional
+    public DeleteMultipleVotesResponse deleteMultipleVotes(DeleteMultipleVotesRequest deleteMultipleVotesRequest) {
+        List<Integer> votingItemIds = deleteMultipleVotesRequest.votingItemIds();
+        List<UUID> voteIds = voteRepository.findByVotingItemIdIn(votingItemIds)
+                .stream()
+                .map(Vote::getVoteId)
+                .collect(Collectors.toList());
+
+        voteRepository.deleteByVotingItemIdIn(votingItemIds);
+        log.info("All multiple votes deleted");
+        return new DeleteMultipleVotesResponse(voteIds);
     }
 }
