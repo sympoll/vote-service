@@ -50,6 +50,13 @@ public class ServiceController {
         return healthStatus;
     }
 
+    @DeleteMapping("/delete-multiple")
+    @ResponseStatus(HttpStatus.OK)
+    public DeleteMultipleVotesResponse deleteMultipleVotes(@RequestBody DeleteMultipleVotesRequest deleteMultipleVotesRequest) {
+        log.info("Received request to delete multiple votes");
+        return voteService.deleteMultipleVotes(deleteMultipleVotesRequest);
+    }
+
     @PostMapping("/user-choices")
     @ResponseStatus(HttpStatus.OK)
     public VotingItemsCheckedResponse getAllUerChoices(@RequestBody VotingItemsCheckedRequest votingItemsCheckedRequest){
